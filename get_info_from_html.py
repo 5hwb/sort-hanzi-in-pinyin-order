@@ -32,6 +32,10 @@ for tr_content in soup.body.blockquote.table.tbody.find_all('tr'):
         for subcontent in td_subcontent:
             td_subcontent_string += subcontent.string
         
+        # Process the hanzi string - get only the simplified form
+        if (cell_num == 1):
+            td_subcontent_string = td_subcontent_string[:1]
+        
         # Process the 'Pronunciations' string - get only the main pinyin reading
         if (cell_num == 2):
             td_subcontent_string = re.findall("\[(.+?)\]", td_subcontent_string)[0]
@@ -44,4 +48,4 @@ for tr_content in soup.body.blockquote.table.tbody.find_all('tr'):
 
 for aa in intended_content:
     #print("===== CONTENTS ({}): =====".format(len(aa)))
-    print(aa)
+    print("{} {} ({})".format(aa[2], aa[1], aa[0]))
