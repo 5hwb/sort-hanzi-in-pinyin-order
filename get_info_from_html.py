@@ -38,13 +38,17 @@ for tr_content in soup.body.blockquote.table.tbody.find_all('tr'):
         
         # Process the 'Pronunciations' string - get only the main pinyin reading
         if (cell_num == 2):
-            td_subcontent_string = re.findall("\[(.+?)\]", td_subcontent_string)[0]
+            td_subcontent_string = re.findall("\[(.+?)\]", td_subcontent_string)[0].lower()
         
         row_tuple.append(td_subcontent_string)
         cell_num += 1
     
     intended_content.append(row_tuple)
     row_num += 1
+
+
+# Sort by pinyin reading
+intended_content = sorted(intended_content, key=lambda row: row[2])
 
 for aa in intended_content:
     #print("===== CONTENTS ({}): =====".format(len(aa)))
