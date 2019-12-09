@@ -12,7 +12,7 @@ intended_content = []
 
 # Go thru each table row (limit to 10 for now)
 row_num = 0
-for tr_content in soup.body.blockquote.table.tbody.find_all('tr')[:10]:
+for tr_content in soup.body.blockquote.table.tbody.find_all('tr'):
     
     # Skip 1st row - not useful info
     if (row_num == 0):
@@ -20,7 +20,7 @@ for tr_content in soup.body.blockquote.table.tbody.find_all('tr')[:10]:
         continue
     
     row_tuple = []
-    print("===== ROW {} CONTENTS: =====".format(row_num))
+    #print("===== ROW {} CONTENTS: =====".format(row_num))
     
     # Go thru each cell in the row
     cell_num = 0
@@ -32,7 +32,7 @@ for tr_content in soup.body.blockquote.table.tbody.find_all('tr')[:10]:
         for subcontent in td_subcontent:
             td_subcontent_string += subcontent.string
         
-        # Process the 'Pronunciations' string - get only the pinyin reading
+        # Process the 'Pronunciations' string - get only the main pinyin reading
         if (cell_num == 2):
             td_subcontent_string = re.findall("\[(.+?)\]", td_subcontent_string)[0]
         
@@ -43,5 +43,5 @@ for tr_content in soup.body.blockquote.table.tbody.find_all('tr')[:10]:
     row_num += 1
 
 for aa in intended_content:
-    print("===== CONTENTS ({}): =====".format(len(aa)))
+    #print("===== CONTENTS ({}): =====".format(len(aa)))
     print(aa)
