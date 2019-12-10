@@ -29,6 +29,21 @@ pinyin_rimes = \
 "uai", "uāi", "uái", "uǎi", "uài", "uan", "uān", "uán", "uǎn", "uàn",
 "uang", "uāng", "uáng", "uǎng", "uàng"]
 
+def create_dict_from_list(list_values):
+    '''
+    Create a dictionary that maps the list values with their indices. 
+    '''
+    dict = {}
+    index = 0
+    for value in list_values:
+        dict[value] = index
+        index += 1
+    return dict
+
+def get_pinyin_tuple(syl):
+    #TODO Check first 2 chars
+    pass    
+
 # TODO: parse a Pinyin syllable and convert it into a tuple of numbers.
 # e.g. 'you' = [3, 65] where y = 3 and ou = 65.
 
