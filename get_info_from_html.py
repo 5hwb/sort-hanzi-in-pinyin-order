@@ -89,7 +89,7 @@ intended_content = []
 
 # Go thru each table row (limit to 10 for now)
 row_num = 0
-for tr_content in soup.body.blockquote.table.tbody.find_all('tr')[:100]:
+for tr_content in soup.body.blockquote.table.tbody.find_all('tr'):
     
     # Skip 1st row - not useful info
     if (row_num == 0):
