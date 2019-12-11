@@ -1,4 +1,4 @@
-# Web scraping experiment
+# Web scraping experiment - sort most frequent Chinese characters in pinyin order
 
 This is a Python script to extract the list of the 2715 most common Chinese characters from [this site](http://zein.se/patrick/3000char.html) and convert it into a Python list of tuples for further processing, allowing it to be sorted in a different manner (such as by Pinyin reading). It uses the BeautifulSoup library to extract data from the HTML page.
 
@@ -11,7 +11,7 @@ The website's data is contained in a HTML table with this format:
 | 3 | 是	 | [shì] to be, 是不是? shìbushì? is (it) or is... |
 | ... | ... | ... |
 
-The Python script converts the data into the following format, extracting only simplified characters and the main pinyin pronunciation:
+The Python script converts the data into the following format internally, extracting only simplified characters and the main pinyin pronunciation:
 
 ```
 [
@@ -22,7 +22,29 @@ The Python script converts the data into the following format, extracting only s
 ]
 ```
 
-In this format, it is easy to sort 
+This makes it easy to sort and output the data into a more intuitive format, such as ordering by the pinyin order (b, p, m, f, d, t, n, l etc):
+
+```
+de 的 (1)
+shì 是 (3)
+yī 一 (2)
+``` 
+
+## Output files
+
+The outputs of the script can be found in _result.txt_, which is the full output of 2715 most common Chinese characters; and _result_100.txt_, _result_250.txt_, _result_500.txt_, and _result_1000.txt_, which contain the 100, 250, 500 and 1000 most common characters respectively, arranged in pinyin order.
+
+### Generating output files (Unix)
+
+Open a terminal and execute the following commands:
+
+```
+python3 get_info_from_html.py > result.txt
+python3 get_info_from_html.py -l 100 > result_100.txt
+python3 get_info_from_html.py -l 250 > result_250.txt
+python3 get_info_from_html.py -l 500 > result_500.txt
+python3 get_info_from_html.py -l 1000 > result_1000.txt
+```
 
 ## Note
 
