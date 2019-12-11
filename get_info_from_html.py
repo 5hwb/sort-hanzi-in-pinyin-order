@@ -74,9 +74,13 @@ def get_pinyin_tuple(syl):
 dict_initials = create_dict_from_list(list_initials)
 dict_rimes = create_dict_from_list(list_rimes)
 
-def custom_key(content):
+def key_pinyin(content):
     # Sort by pinyin pronunciation (3rd cell) in tuple form
     return get_pinyin_tuple(content[2])
+
+def key_hanzi(content):
+    # Sort by hanzi (2nd cell)
+    return get_pinyin_tuple(content[1])
 
 # Read HTML file and show contents
 with open("The most common Chinese characters (Unicode).html", "r+") as file:
@@ -124,7 +128,7 @@ for tr_content in soup.body.blockquote.table.tbody.find_all('tr'):
     row_num += 1
 
 # Sort by pinyin reading
-intended_content = sorted(intended_content, key=custom_key)
+intended_content = sorted(intended_content, key=key_pinyin)
 
 for aa in intended_content:
     #print("===== CONTENTS ({}): =====".format(len(aa)))
