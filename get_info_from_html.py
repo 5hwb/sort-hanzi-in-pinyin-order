@@ -80,7 +80,7 @@ def key_pinyin(content):
 
 def key_hanzi(content):
     # Sort by hanzi (2nd cell)
-    return get_pinyin_tuple(content[1])
+    return content[1]
 
 # Read HTML file and show contents
 with open("The most common Chinese characters (Unicode).html", "r+") as file:
