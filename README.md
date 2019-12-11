@@ -1,6 +1,6 @@
 # Web scraping experiment - sort most frequent Chinese characters in pinyin order
 
-This is a Python script to extract the list of the 2715 most common Chinese characters from [this site](http://zein.se/patrick/3000char.html) and convert it into a Python list of tuples for further processing, allowing it to be sorted in a different manner (such as by Pinyin reading). It uses the BeautifulSoup library to extract data from the HTML page.
+This is a Python script to extract the list of the 2715 most common Chinese characters (hanzi) from [this site](http://zein.se/patrick/3000char.html) and convert it into a Python list of tuples for further processing, allowing it to be sorted in a different manner (such as by Pinyin reading). It uses the BeautifulSoup library to extract data from the HTML page.
 
 The website's data is contained in a HTML table with this format:
 
