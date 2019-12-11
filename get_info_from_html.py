@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import re
+import argparse
 
 ##################################################
 #          Pinyin sort order lists
@@ -77,6 +78,9 @@ def get_pinyin_tuple(syl):
     
     return pinyin_tuple
 
+#=============================
+# Key functions for sorting
+#=============================
 def key_pinyin(content):
     '''
     Key function for sort function.
@@ -90,6 +94,13 @@ def key_hanzi(content):
     Sort by hanzi (2nd cell)
     '''
     return content[1]
+
+##################################################
+# Parse a single argument (limit to n most frequent characters)
+##################################################
+parser = argparse.ArgumentParser()
+parser.add_argument("-l", "--limit", help="Limit output to n most frequent characters", type=int)
+args = parser.parse_args()
 
 ##################################################
 # Code
@@ -113,10 +124,18 @@ soup = BeautifulSoup(html_doc, 'html.parser')
 intended_content = []
 
 #=============================
-# Go thru each table row (limit to 10 for now)
+# Go thru the table data
 #=============================
 row_num = 0
-for tr_content in soup.body.blockquote.table.tbody.find_all('tr'):
+find_all_tr = soup.body.blockquote.table.tbody.find_all('tr')
+
+# Get the limit from args, if provided
+limit = len(find_all_tr)
+if (args.limit != None and args.limit + 1 < len(find_all_tr)):
+    limit = args.limit + 1
+
+# Go thru each table row
+for tr_content in find_all_tr[:limit]:
     
     # Skip 1st row - not useful info
     if (row_num == 0):
