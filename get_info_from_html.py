@@ -1,7 +1,9 @@
 from bs4 import BeautifulSoup
 import re
 
-# Pinyin sort order
+##################################################
+#          Pinyin sort order lists
+##################################################
 list_initials = \
 ["","b","p","f","m","d","t","n","l",
 "g","k","h","j","q","x",
@@ -28,6 +30,10 @@ list_rimes = \
 "uai", "uāi", "uái", "uǎi", "uài", "uan", "uān", "uán", "uǎn", "uàn",
 "uang", "uāng", "uáng", "uǎng", "uàng"]
 
+##################################################
+#      Functions to make sorting easier
+##################################################
+
 def create_dict_from_list(list_entries):
     '''
     Create a dictionary that maps entries in a list with their indices, which makes it faster to look up the contents of a list. 
@@ -43,7 +49,7 @@ def create_dict_from_list(list_entries):
 def get_pinyin_tuple(syl):
     '''
     Given a Pinyin syllable string, convert it into a list tuple where the 1st number represents the initial and the 2nd number represents the rime.
-    e.g. 'dang' -> (4, 7) where 'd' initial -> 4 and 'ang' rime -> 7, for example.
+    e.g. 'dang' -> (5, 86) where the initial 'd' -> 5 and the rime 'ang' -> 86, for example.
     This makes it easy to sort Pinyin syllables according to the traditional pinyin order (b, p, m, f, etc).
     Note: dict_initials and dict_rimes need to be created before running this function.
     '''
@@ -71,18 +77,33 @@ def get_pinyin_tuple(syl):
     
     return pinyin_tuple
 
-dict_initials = create_dict_from_list(list_initials)
-dict_rimes = create_dict_from_list(list_rimes)
-
 def key_pinyin(content):
-    # Sort by pinyin pronunciation (3rd cell) in tuple form
+    '''
+    Key function for sort function.
+    Sort by pinyin pronunciation (3rd cell) in tuple form
+    '''
     return get_pinyin_tuple(content[2])
 
 def key_hanzi(content):
-    # Sort by hanzi (2nd cell)
+    '''
+    Key function for sort function.
+    Sort by hanzi (2nd cell)
+    '''
     return content[1]
 
+##################################################
+# Code
+##################################################
+
+#=============================
+# Create dictionary to get the list index, given a value
+#=============================
+dict_initials = create_dict_from_list(list_initials)
+dict_rimes = create_dict_from_list(list_rimes)
+
+#=============================
 # Read HTML file and show contents
+#=============================
 with open("The most common Chinese characters (Unicode).html", "r+") as file:
     html_doc = file.read()           # reads a string from a file
 
@@ -91,7 +112,9 @@ soup = BeautifulSoup(html_doc, 'html.parser')
 
 intended_content = []
 
+#=============================
 # Go thru each table row (limit to 10 for now)
+#=============================
 row_num = 0
 for tr_content in soup.body.blockquote.table.tbody.find_all('tr'):
     
@@ -113,11 +136,11 @@ for tr_content in soup.body.blockquote.table.tbody.find_all('tr'):
         for subcontent in td_subcontent:
             td_subcontent_string += subcontent.string
         
-        # Process the hanzi string - get only the simplified form
+        # Process the 'Character' string - get only the simplified form
         if (cell_num == 1):
             td_subcontent_string = td_subcontent_string[:1]
         
-        # Process the 'Pronunciations' string - get only the main pinyin reading
+        # Process the 'Pronunciations and explanations' string - get only the main pinyin reading
         if (cell_num == 2):
             td_subcontent_string = re.findall("\[(.+?)\]", td_subcontent_string)[0].lower()
         
@@ -127,7 +150,9 @@ for tr_content in soup.body.blockquote.table.tbody.find_all('tr'):
     intended_content.append(row_tuple)
     row_num += 1
 
-# Sort by pinyin reading
+#=============================
+# Sort by pinyin reading and print output
+#=============================
 intended_content = sorted(intended_content, key=key_pinyin)
 
 for aa in intended_content:
