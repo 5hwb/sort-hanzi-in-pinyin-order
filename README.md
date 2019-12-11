@@ -22,7 +22,7 @@ The Python script converts the data into the following format internally, extrac
 ]
 ```
 
-This makes it easy to sort and output the data into a more intuitive format, such as ordering by the pinyin order (b, p, m, f, d, t, n, l etc):
+This makes it easy to sort the entries in pinyin order (b, p, m, f, d, t, n, l etc):
 
 ```
 de 的 (1)
